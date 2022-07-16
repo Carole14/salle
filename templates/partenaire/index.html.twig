@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Partenaires{% endblock %}
+
+{% block body %}
+    <h1>Liste des partenaires</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Active</th>
+                <th>Description</th>
+                <th>Contact du technicien</th>
+                <th>contact du commercial</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for partenaire in partenaires %}
+            <tr>
+                
+                <td>{{ partenaire.name }}</td>
+                <td>{{ partenaire.active }}</td>
+                <td>{{ partenaire.description }}</td>
+                <td>{{ partenaire.technicalContact }}</td>
+                <td>{{ partenaire.commercialContact }}</td>
+                <td>
+                    <a href="{{ path('app_partenaire_show', {'id': partenaire.id}) }}">montrer les partenaires</a>
+                    <a href="{{ path('app_partenaire_edit', {'id': partenaire.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_partenaire_new') }}">Créer un nouveau partenaire</a>
+{% endblock %}
