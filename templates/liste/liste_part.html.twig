@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des partenaires{% endblock %}
+
+{% block body %}
+
+{% include 'navigation.html.twig' %}
+
+    <h1>Liste des partenaires</h1>
+
+    <input id="searchbar" onkeyup="search_structures" type="text"
+        name="search" placeholder="Rechercher des structures" class="search">
+
+    {% for partenaire in partenaire %}
+
+<table class="table">
+        <tbody>
+         
+            <tr>
+                <th>Nom</th>
+                <td>{{ partenaire.name }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ partenaire.description }}</td>
+            </tr>
+        <tr>
+                <th>Description</th>
+                <td>{{ partenaire.active }}</td>
+            </tr>
+
+        </tbody>
+    </table>
+
+{% endfor %}
+
+       
+
+{% endblock %}

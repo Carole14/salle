@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle structure{% endblock %}
+
+{% block body %}
+
+{% include 'navigation.html.twig' %}
+
+    <h1>Liste des structures</h1>
+
+    <input id="searchbar" onkeyup="search_structures" type="text"
+        name="search" placeholder="Rechercher des structures" class="search">
+
+    {% for structure in structures %}
+
+<table class="table">
+        <tbody>
+         
+            <tr>
+                <th>Nom</th>
+                <td>{{ structures.name }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ structures.description }}</td>
+            </tr>
+            <tr>
+                <th>Actif/inactif</th>
+                <td>{{ structure.active }}</td>
+            </tr>
+
+        </tbody>
+    </table>
+
+{% endfor %}
+
+       
+
+{% endblock %}
+
+

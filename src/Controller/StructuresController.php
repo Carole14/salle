@@ -21,6 +21,8 @@ class StructuresController extends AbstractController
         ]);
     }
 
+ 
+
     #[Route('/new', name: 'app_structures_new', methods: ['GET', 'POST'])]
     public function new(Request $request, StructuresRepository $structuresRepository): Response
     {
@@ -75,4 +77,5 @@ class StructuresController extends AbstractController
 
         return $this->redirectToRoute('app_structures_index', [], Response::HTTP_SEE_OTHER);
     }
+
 }
