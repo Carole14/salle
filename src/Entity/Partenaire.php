@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PartenaireRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PartenaireRepository::class)]
@@ -33,6 +35,18 @@ class Partenaire
 
     #[ORM\Column(length: 255)]
     private ?string $password = null;
+
+    #[ORM\ManyToMany(targetEntity: Perms::class, inversedBy: 'partenaires')]
+    private Collection $partperm;
+
+    #[ORM\OneToMany(mappedBy: 'part_id', targetEntity: User::class, orphanRemoval: true)]
+    private Collection $users;
+
+    public function __construct()
+    {
+        $this->partperm = new ArrayCollection();
+        $this->users = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -119,6 +133,60 @@ class Partenaire
     public function setPassword(string $password): self
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Perms>
+     */
+    public function getPartperm(): Collection
+    {
+        return $this->partperm;
+    }
+
+    public function addPartperm(Perms $partperm): self
+    {
+        if (!$this->partperm->contains($partperm)) {
+            $this->partperm[] = $partperm;
+        }
+
+        return $this;
+    }
+
+    public function removePartperm(Perms $partperm): self
+    {
+        $this->partperm->removeElement($partperm);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->setPartId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->removeElement($user)) {
+            // set the owning side to null (unless already changed)
+            if ($user->getPartId() === $this) {
+                $user->setPartId(null);
+            }
+        }
 
         return $this;
     }
