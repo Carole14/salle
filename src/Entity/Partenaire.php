@@ -42,10 +42,14 @@ class Partenaire
     #[ORM\OneToMany(mappedBy: 'part_id', targetEntity: User::class, orphanRemoval: true)]
     private Collection $users;
 
+    #[ORM\OneToMany(mappedBy: 'partenaire', targetEntity: Structures::class)]
+    private Collection $partenaire;
+
     public function __construct()
     {
         $this->partperm = new ArrayCollection();
         $this->users = new ArrayCollection();
+        $this->partenaire = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -185,6 +189,36 @@ class Partenaire
             // set the owning side to null (unless already changed)
             if ($user->getPartId() === $this) {
                 $user->setPartId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Structures>
+     */
+    public function getPartenaire(): Collection
+    {
+        return $this->partenaire;
+    }
+
+    public function addPartenaire(Structures $partenaire): self
+    {
+        if (!$this->partenaire->contains($partenaire)) {
+            $this->partenaire[] = $partenaire;
+            $partenaire->setPartenaire($this);
+        }
+
+        return $this;
+    }
+
+    public function removePartenaire(Structures $partenaire): self
+    {
+        if ($this->partenaire->removeElement($partenaire)) {
+            // set the owning side to null (unless already changed)
+            if ($partenaire->getPartenaire() === $this) {
+                $partenaire->setPartenaire(null);
             }
         }
 

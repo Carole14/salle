@@ -1,4 +1,29 @@
 {{ form_start(form) }}
     {{ form_widget(form) }}
-    <button class="btn" type="submit">{{ button_label|default('Sauvgarder') }}</button>
+    <button class="btn" type="submit" data-bs-toggle = "modal" data-bs-target ="#modal1">{{ button_label|default('Sauvgarder') }}</button>
+
+<div class ="modal fade" id="modal1">
+
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+
+<h5 class="modal-title" aria-labelledby="êtes vous sûr de la modification ?">Modal</h5>
+<button class="btn-close" data-bs-dismiss="modal" aria-lable="Close"></button>
+</div>
+
+<div class="modal-body" aria-describedby="content"> 
+<p> Test </p>
+</div>
+
+<button class="btn btn-secondary" data-bs-dismiss="modal">Close
+</button>
+
+<button class="btn btn-primary" data-bs-dismiss="modal">Save changes
+</button>
+
+</div>
+
+</div>
+
 {{ form_end(form) }}

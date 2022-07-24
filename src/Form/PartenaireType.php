@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Partenaire;
+use App\Entity\Perms;
+
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -11,6 +13,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 
 class PartenaireType extends AbstractType
@@ -21,9 +24,7 @@ class PartenaireType extends AbstractType
             ->add('name',TextType::class, [
                 'label' => 'Nom'
             ])
-            ->add('active', TextType::class, [
-                'label' => 'actif/inactif'
-            ])
+            ->add('active')
             ->add('description')
             ->add('technical_contact', TextType::class, [
                 'label' => 'nom du technicien',
@@ -57,6 +58,10 @@ class PartenaireType extends AbstractType
                         'max' => 4096,
                     ]),
                 ],
+            ])
+            ->add ('partperms', PermsType::class, [
+                'data_class' => Perms::class,
+                'label' => 'permissions',
             ])
         ;
     }

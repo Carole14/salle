@@ -1,20 +1,21 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ListeController!{% endblock %}
+{% block title %}Liste{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+{% include 'navigation.html.twig' %}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/Users/macbook/salle/src/Controller/ListeController.php'|file_link(0) }}">src/Controller/ListeController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/Users/macbook/salle/templates/liste/index.html.twig'|file_link(0) }}">templates/liste/index.html.twig</a></code></li>
-    </ul>
-</div>
+<h1> Fonctionnalités </h1>
+
+  <h2>Liste des partenaires</h2>
+    <a href="{{ path('app_part_liste') }}">
+        <button class="btn btn-info btn-lg m-2">Détails</button>
+        </a>
+ <h2>Liste des structures</h2>
+    <a href="{{ path('app_structures_liste') }}">
+        <button class="btn btn-info btn-lg m-2">Détails</button>
+        </a>
+
+
 {% endblock %}

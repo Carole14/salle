@@ -25,6 +25,9 @@ class Structures
     #[ORM\Column(length: 255)]
     private ?string $password = null;
 
+    #[ORM\ManyToOne(inversedBy: 'partenaire')]
+    private ?Partenaire $partenaire = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -74,6 +77,18 @@ class Structures
     public function setPassword(string $password): self
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    public function getPartenaire(): ?Partenaire
+    {
+        return $this->partenaire;
+    }
+
+    public function setPartenaire(?Partenaire $partenaire): self
+    {
+        $this->partenaire = $partenaire;
 
         return $this;
     }

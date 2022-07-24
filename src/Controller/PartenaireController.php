@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\ORM\EntityManagerInterface;
 
 #[Route('/partenaire')]
 class PartenaireController extends AbstractController
@@ -22,10 +23,10 @@ class PartenaireController extends AbstractController
     }
 
     #[Route('/new', name: 'app_partenaire_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, PartenaireRepository $partenaireRepository): Response
+    public function new(Request $request, PartenaireRepository $partenaireRepository, EntityManagerInterface $entityManager): Response
     {
         $partenaire = new Partenaire();
-        $form = $this->createForm(PartenaireType::class, $partenaire);
+        $form = $this->createForm(PartenaireType::class,);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -37,7 +38,10 @@ class PartenaireController extends AbstractController
         return $this->renderForm('partenaire/new.html.twig', [
             'partenaire' => $partenaire,
             'form' => $form,
-        ]);
+            
+            ]);
+          
+        
     }
 
     #[Route('/{id}', name: 'app_partenaire_show', methods: ['GET'])]

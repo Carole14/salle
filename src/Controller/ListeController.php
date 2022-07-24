@@ -27,7 +27,7 @@ class ListeController extends AbstractController
     );
     }
 
-    #[Route('/liste', name: 'app_structures_liste')]
+    #[Route('/liste', name: 'app_part_liste')]
     public function list(PartenaireRepository $partenaireRepository): Response
     {
         return $this->render('liste/liste_part.html.twig', [
