@@ -39,16 +39,15 @@ class Partenaire
     #[ORM\ManyToMany(targetEntity: Perms::class, inversedBy: 'partenaires')]
     private Collection $partperm;
 
-    #[ORM\OneToMany(mappedBy: 'part_id', targetEntity: User::class, orphanRemoval: true)]
-    private Collection $users;
+    #[ORM\ManyToOne(inversedBy: 'partenaires')]
+    private ?User $partuser = null;
 
-    #[ORM\OneToMany(mappedBy: 'partenaire', targetEntity: Structures::class)]
-    private Collection $partenaire;
+   
 
     public function __construct()
     {
         $this->partperm = new ArrayCollection();
-        $this->users = new ArrayCollection();
+        
         $this->partenaire = new ArrayCollection();
     }
 
@@ -165,63 +164,23 @@ class Partenaire
         return $this;
     }
 
-    /**
-     * @return Collection<int, User>
-     */
-    public function getUsers(): Collection
+    public function getPartuser(): ?User
     {
-        return $this->users;
+        return $this->partuser;
     }
 
-    public function addUser(User $user): self
+    public function setPartuser(?User $partuser): self
     {
-        if (!$this->users->contains($user)) {
-            $this->users[] = $user;
-            $user->setPartId($this);
-        }
+        $this->partuser = $partuser;
 
         return $this;
     }
 
-    public function removeUser(User $user): self
-    {
-        if ($this->users->removeElement($user)) {
-            // set the owning side to null (unless already changed)
-            if ($user->getPartId() === $this) {
-                $user->setPartId(null);
-            }
-        }
+   
 
-        return $this;
-    }
+   
 
-    /**
-     * @return Collection<int, Structures>
-     */
-    public function getPartenaire(): Collection
-    {
-        return $this->partenaire;
-    }
+   
 
-    public function addPartenaire(Structures $partenaire): self
-    {
-        if (!$this->partenaire->contains($partenaire)) {
-            $this->partenaire[] = $partenaire;
-            $partenaire->setPartenaire($this);
-        }
-
-        return $this;
-    }
-
-    public function removePartenaire(Structures $partenaire): self
-    {
-        if ($this->partenaire->removeElement($partenaire)) {
-            // set the owning side to null (unless already changed)
-            if ($partenaire->getPartenaire() === $this) {
-                $partenaire->setPartenaire(null);
-            }
-        }
-
-        return $this;
-    }
+   
 }

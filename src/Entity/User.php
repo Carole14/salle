@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -27,9 +29,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\ManyToOne(inversedBy: 'users')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Partenaire $part_id = null;
+    #[ORM\OneToMany(mappedBy: 'partuser', targetEntity: Partenaire::class)]
+    private Collection $partenaires;
+
+    public function __construct()
+    {
+        $this->partenaires = new ArrayCollection();
+    }
+
+  
 
     public function getId(): ?int
     {
@@ -101,15 +109,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    public function getPartId(): ?Partenaire
+    /**
+     * @return Collection<int, Partenaire>
+     */
+    public function getPartenaires(): Collection
     {
-        return $this->part_id;
+        return $this->partenaires;
     }
 
-    public function setPartId(?Partenaire $part_id): self
+    public function addPartenaire(Partenaire $partenaire): self
     {
-        $this->part_id = $part_id;
+        if (!$this->partenaires->contains($partenaire)) {
+            $this->partenaires[] = $partenaire;
+            $partenaire->setPartuser($this);
+        }
 
         return $this;
     }
+
+    public function removePartenaire(Partenaire $partenaire): self
+    {
+        if ($this->partenaires->removeElement($partenaire)) {
+            // set the owning side to null (unless already changed)
+            if ($partenaire->getPartuser() === $this) {
+                $partenaire->setPartuser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    
 }
